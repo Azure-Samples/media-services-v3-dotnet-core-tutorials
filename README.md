@@ -23,7 +23,7 @@ To run samples in this repository, you need:
 
 The following NuGet packages were added to project: 
 
-* Microsoft.Azure.Management.Media -Version 1.0.0
+* Microsoft.Azure.Management.Media. To make sure you are using the latest Azure Media Services package, check [Microsoft.Azure.Management.Media](https://www.nuget.org/packages/Microsoft.Azure.Management.Media).
 * Microsoft.IdentityModel.Clients.ActiveDirectory -Version 3.19.4
 * WindowsAzure.Storage  -Version 9.1.1
 
