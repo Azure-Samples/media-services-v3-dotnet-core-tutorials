@@ -33,6 +33,11 @@ namespace LiveSample
             }
             catch (Exception exception)
             {
+                if (exception.Source.Contains("ActiveDirectory"))
+                {
+                     Console.Error.WriteLine("TIP: Make sure that you have filled out the appsettings.json file before running this sample.");
+                }
+
                 Console.Error.WriteLine($"{exception.Message}");
 
                 ApiErrorException apiException = exception.GetBaseException() as ApiErrorException;
@@ -108,6 +113,9 @@ namespace LiveSample
                     streamOptions: new List<StreamOptionsFlag?>()
                     {
                         // Set this to Default or Low Latency
+                        // When using Low Latency mode, you must configure the Azure Media Player to use the 
+                        // quick start hueristic profile or you won't notice the change. 
+                        // In the AMP player client side JS options, set -  heuristicProfile: "QuickStartLive". 
                         StreamOptionsFlag.Default
                     }
                 );
