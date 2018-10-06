@@ -176,7 +176,7 @@ namespace EncodeAndStream
 
                             // Look for just the DASH path and generate a URL for the Azure Media Player to playback the content with the AES token to decrypt.
                             // Note that the JWT token is set to expire in 1 hour. 
-                            if (paths.StreamingPaths[i].StreamingProtocol== "Dash"){
+                            if (paths.StreamingPaths[i].StreamingProtocol== StreamingPolicyStreamingProtocol.Dash){
                                 uriBuilder.Path = paths.StreamingPaths[i].Paths[0];
                                 var dashPath = uriBuilder.ToString();
 
@@ -199,7 +199,7 @@ namespace EncodeAndStream
                 }
 
                 Console.WriteLine("Try Streaming the content using Azure Media Player - https://ampdemo.azureedge.net.");
-                Console.WriteLine("Use the Advanced options to set the AES token in the AMP demo page. When finished press enter to cleanup.");
+                Console.WriteLine("Use the Advanced options to see or modify the AES Bearer token in the AMP demo page. When finished press enter to cleanup.");
                 Console.Out.Flush();
                 Console.ReadLine();
 
