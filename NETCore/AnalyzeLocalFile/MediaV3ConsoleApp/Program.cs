@@ -86,7 +86,13 @@ namespace AnalyzeVideos
 
                 CreateOutputAsset(client,config.ResourceGroup, config.AccountName, outputAssetName);
 
-                Job job = SubmitJob(client,config.ResourceGroup, config.AccountName, VideoAnalyzerTransformName, jobName, input, outputAssetName);
+                // Note that you can now pass custom correlation data Dictionary into the job to use via EventGrid or other Job polling listeners.
+                // this is handy for passing tenant ID, or custom workflow data as part of your job.
+                var correlationData = new Dictionary<string,string>();
+                correlationData.Add("customData1", "some custom data to pass through the job");
+                correlationData.Add("custom ID", "some GUID here");
+
+                Job job = SubmitJob(client,config.ResourceGroup, config.AccountName, VideoAnalyzerTransformName, jobName, input, outputAssetName, correlationData);
 
                 DateTime startedTime = DateTime.Now;
 
@@ -213,7 +219,7 @@ namespace AnalyzeVideos
             return client.Assets.CreateOrUpdate(resourceGroupName, accountName, assetName, input);
         }
 
-        private static Job SubmitJob(IAzureMediaServicesClient client, string resourceGroupName, string accountName, string transformName, string jobName, JobInput jobInput, string outputAssetName)
+        private static Job SubmitJob(IAzureMediaServicesClient client, string resourceGroupName, string accountName, string transformName, string jobName, JobInput jobInput, string outputAssetName, Dictionary<string,string> correlationData)
         {
             JobOutput[] jobOutputs =
             {
@@ -229,6 +235,7 @@ namespace AnalyzeVideos
                 {
                     Input = jobInput,
                     Outputs = jobOutputs,
+                    CorrelationData = correlationData
                 });
 
             return job;
