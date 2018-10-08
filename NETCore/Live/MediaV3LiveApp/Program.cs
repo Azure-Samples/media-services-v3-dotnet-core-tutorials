@@ -133,6 +133,7 @@ namespace LiveSample
                         // When using Low Latency mode, you must configure the Azure Media Player to use the 
                         // quick start hueristic profile or you won't notice the change. 
                         // In the AMP player client side JS options, set -  heuristicProfile: "Low Latency Heuristic Profile". 
+                        // To use low latency optimally, you should tune your encoder settings down to 1 second GOP size instead of 2 seconds.
                         StreamOptionsFlag.LowLatency
                     }
                 );
