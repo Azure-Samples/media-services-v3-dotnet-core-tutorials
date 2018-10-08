@@ -83,7 +83,7 @@ namespace LiveSample
                 Console.WriteLine();
 
                 // Create the LiveEvent input IP access control  
-                LiveEventInputAccessControl liveEventInnputAccess = new LiveEventInputAccessControl
+                LiveEventInputAccessControl liveEventInputAccess = new LiveEventInputAccessControl
                 {
                         Ip = new IPAccessControl(
                             allow: new IPRange[]
@@ -125,7 +125,7 @@ namespace LiveSample
                                 encodingType:LiveEventEncodingType.None, 
                                 presetName:null
                             ),
-                    input: new LiveEventInput(LiveEventInputProtocol.RTMP,liveEventInnputAccess), 
+                    input: new LiveEventInput(LiveEventInputProtocol.RTMP,liveEventInputAccess), 
                     preview: liveEventPreview,
                     streamOptions: new List<StreamOptionsFlag?>()
                     {
