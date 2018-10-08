@@ -82,6 +82,23 @@ namespace LiveSample
                 Console.WriteLine($"Creating a live event named {liveEventName}");
                 Console.WriteLine();
 
+                // Create the LiveEvent input IP access control  
+                LiveEventInputAccessControl liveEventInnputAccess = new LiveEventInputAccessControl
+                {
+                        Ip = new IPAccessControl(
+                            allow: new IPRange[]
+                            {
+                                new IPRange (
+                                    name: "AllowAll",
+                                    address: "0.0.0.0",
+                                    subnetPrefixLength: 0
+                                )
+                            }
+                        )
+                
+                };
+
+                // Create the LiveEvent Preview IP access control
                 LiveEventPreview liveEventPreview = new LiveEventPreview
                 {
                     AccessControl = new LiveEventPreviewAccessControl(
@@ -108,15 +125,15 @@ namespace LiveSample
                                 encodingType:LiveEventEncodingType.None, 
                                 presetName:null
                             ),
-                    input: new LiveEventInput(LiveEventInputProtocol.RTMP), 
+                    input: new LiveEventInput(LiveEventInputProtocol.RTMP,liveEventInnputAccess), 
                     preview: liveEventPreview,
                     streamOptions: new List<StreamOptionsFlag?>()
                     {
                         // Set this to Default or Low Latency
                         // When using Low Latency mode, you must configure the Azure Media Player to use the 
                         // quick start hueristic profile or you won't notice the change. 
-                        // In the AMP player client side JS options, set -  heuristicProfile: "QuickStartLive". 
-                        StreamOptionsFlag.Default
+                        // In the AMP player client side JS options, set -  heuristicProfile: "Low Latency Heuristic Profile". 
+                        StreamOptionsFlag.LowLatency
                     }
                 );
 
@@ -139,7 +156,7 @@ namespace LiveSample
                 Console.WriteLine();
 
                 Console.WriteLine($"Open the live preview in your browser and use the Azure Media Player to monitor the preview playback:");
-                Console.WriteLine($"\thttps://ampdemo.azureedge.net/?url={previewEndpoint}");
+                Console.WriteLine($"\thttps://ampdemo.azureedge.net/?url={previewEndpoint}&heuristicprofile=lowlatency");
                 Console.WriteLine();
 
                 Console.WriteLine("Start the live stream now, sending the input to the ingest url and verify that it is arriving with the preview url.");
@@ -213,7 +230,7 @@ namespace LiveSample
                 {
                     Console.WriteLine(stringBuilder.ToString());
                     Console.WriteLine("Open the following URL to playback the published,recording LiveOutput in the Azure Media Player");
-                    Console.WriteLine($"\t https://ampdemo.azureedge.net/?url={playerPath}");
+                    Console.WriteLine($"\t https://ampdemo.azureedge.net/?url={playerPath}&heuristicprofile=lowlatency");
                     Console.WriteLine();
                 }
                 else
