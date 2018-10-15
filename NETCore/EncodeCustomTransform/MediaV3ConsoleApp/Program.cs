@@ -206,7 +206,7 @@ namespace EncodeVideosCustomTransform
                                         new H264Layer (
                                             bitrate: 600000, 
                                             width: "640",
-                                            height: "480",
+                                            height: "360",
                                             label: "SD"
                                         )
                                     }
