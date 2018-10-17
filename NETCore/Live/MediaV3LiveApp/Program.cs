@@ -79,6 +79,7 @@ namespace LiveSample
                 string uniqueness = Guid.NewGuid().ToString().Substring(0, 13);
                 liveEventName = "liveevent-" + uniqueness;
 
+                // <CreateLiveEvent>
                 Console.WriteLine($"Creating a live event named {liveEventName}");
                 Console.WriteLine();
 
@@ -140,17 +141,19 @@ namespace LiveSample
 
                 Console.WriteLine($"Creating the LiveEvent, be patient this can take time...");
                 liveEvent = client.LiveEvents.Create(config.ResourceGroup, config.AccountName, liveEventName, liveEvent, autoStart:true);
-
-            
-
+                // </CreateLiveEvent>
+                
                 // Get the input endpoint to configure the on premise encoder with
+                // <GetIngestURL>
                 string ingestUrl = liveEvent.Input.Endpoints.First().Url;
                 Console.WriteLine($"The ingest url to configure the on premise encoder with is:");
                 Console.WriteLine($"\t{ingestUrl}");
                 Console.WriteLine();
+                // </GetIngestURL>
 
                 // Use the previewEndpoint to preview and verify
                 // that the input from the encoder is actually being received
+                // <GetPreviewURLs>
                 string previewEndpoint = liveEvent.Preview.Endpoints.First().Url;
                 Console.WriteLine($"The preview url is:");
                 Console.WriteLine($"\t{previewEndpoint}");
@@ -159,7 +162,8 @@ namespace LiveSample
                 Console.WriteLine($"Open the live preview in your browser and use the Azure Media Player to monitor the preview playback:");
                 Console.WriteLine($"\thttps://ampdemo.azureedge.net/?url={previewEndpoint}&heuristicprofile=lowlatency");
                 Console.WriteLine();
-
+                // </GetPreviewURLs>
+                
                 Console.WriteLine("Start the live stream now, sending the input to the ingest url and verify that it is arriving with the preview url.");
                 Console.WriteLine("IMPORTANT TIP!: Make ABSOLUTLEY CERTAIN that the video is flowing to the Preview URL before continuing!");
                 Console.WriteLine("Press enter to continue...");
@@ -167,12 +171,15 @@ namespace LiveSample
                 var ignoredInput = Console.ReadLine();
 
                 // Create an Asset for the LiveOutput to use
+                // <CreateAsset>
                 string assetName = "archiveAsset" + uniqueness;
                 Console.WriteLine($"Creating an asset named {assetName}");
                 Console.WriteLine();
                 Asset asset = client.Assets.CreateOrUpdate(config.ResourceGroup, config.AccountName, assetName, new Asset());
-
+                // </CreateAsset>
+                
                 // Create the LiveOutput
+                // <CreateLiveOutput>
                 string manifestName = "output";
                 string liveOutputName = "liveOutput" + uniqueness;
                 Console.WriteLine($"Creating a live output named {liveOutputName}");
@@ -180,13 +187,15 @@ namespace LiveSample
 
                 LiveOutput liveOutput = new LiveOutput(assetName: asset.Name, manifestName: manifestName, archiveWindowLength: TimeSpan.FromMinutes(10));
                 liveOutput = client.LiveOutputs.Create(config.ResourceGroup, config.AccountName, liveEventName, liveOutputName, liveOutput);
-
+                // </CreateLiveOutput>
+                
                 // Create the StreamingLocator
                 string streamingLocatorName = "streamingLocator" + uniqueness;
 
                 Console.WriteLine($"Creating a streaming locator named {streamingLocatorName}");
                 Console.WriteLine();
 
+                // <CreateStreamingLocator>
                 StreamingLocator locator = new StreamingLocator(assetName: assetName, streamingPolicyName: PredefinedStreamingPolicy.ClearStreamingOnly);
                 locator = client.StreamingLocators.Create(config.ResourceGroup, config.AccountName, streamingLocatorName, locator);
 
@@ -199,7 +208,8 @@ namespace LiveSample
                     Console.WriteLine("Streaming Endpoint was Stopped, restarting now..");
                     client.StreamingEndpoints.Start(config.ResourceGroup, config.AccountName, "default");
                 }
-
+                // </CreateStreamingLocator>
+                
                 // Get the url to stream the output
                 var paths = client.StreamingLocators.ListPaths(config.ResourceGroup, config.AccountName, streamingLocatorName);
 
@@ -311,6 +321,8 @@ namespace LiveSample
             };
         }
         // </CreateMediaServicesClient>
+        
+        // <CleanupLiveEventAndOutput>
         private static void CleanupLiveEventAndOutput(IAzureMediaServicesClient client, string resourceGroup, string accountName, string liveEventName, string liveOutputName)
         {
             // Delete the LiveOutput
@@ -320,7 +332,9 @@ namespace LiveSample
             client.LiveEvents.Stop(resourceGroup, accountName, liveEventName);
             client.LiveEvents.Delete(resourceGroup, accountName, liveEventName);
         }
-
+        // </CleanupLiveEventAndOutput>
+        
+        // <CleanupLocatorAssetAndStreamingEndpoint>
         private static void CleanupLocatorAssetAndStreamingEndpoint(IAzureMediaServicesClient client, string resourceGroup, string accountName, string streamingLocatorName, string assetName)
         {
             // Delete the Streaming Locator
@@ -334,7 +348,9 @@ namespace LiveSample
             // client.StreamingEndpoints.Delete(resourceGroup, accountName, endpointName);
 
         }
+        // </CleanupLocatorAssetAndStreamingEndpoint>
         
+        // <CleanupAccount>
         private static void CleanupAccount(IAzureMediaServicesClient client, string resourceGroup, string accountName)
         {
             try{
@@ -375,6 +391,7 @@ namespace LiveSample
 
             }
         }
+        // </CleanupAccount>
     }
 }
 
