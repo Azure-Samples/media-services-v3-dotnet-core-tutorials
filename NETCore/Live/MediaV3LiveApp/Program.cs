@@ -116,7 +116,13 @@ namespace LiveSample
                     )
                 };
 
-                // This can sometimes take awhile. Be patient.
+                
+                // To get the same ingest URL for the same LiveEvent name:
+                // 1. Set vanityUrl to true so you have ingest like: 
+                //        rtmps://liveevent-hevc12-eventgridmediaservice-usw22.channel.media.azure.net:2935/live/522f9b27dd2d4b26aeb9ef8ab96c5c77           
+                // 2. Set accessToken to a desired GUID string (with or without hyphen)
+
+                // The following operation can sometimes take awhile. Be patient.
                 LiveEvent liveEvent = new LiveEvent(
                     location: mediaService.Location, 
                     description:"Sample LiveEvent for testing",
