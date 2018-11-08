@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -202,7 +202,7 @@ namespace LiveSample
                 Console.WriteLine();
 
                 // <CreateStreamingLocator>
-                StreamingLocator locator = new StreamingLocator(assetName: assetName, streamingPolicyName: PredefinedStreamingPolicy.ClearStreamingOnly);
+                StreamingLocator locator = new StreamingLocator(assetName: asset.Name, streamingPolicyName: PredefinedStreamingPolicy.ClearStreamingOnly);
                 locator = client.StreamingLocators.Create(config.ResourceGroup, config.AccountName, streamingLocatorName, locator);
 
                 // Get the default Streaming Endpoint on the account
@@ -256,7 +256,7 @@ namespace LiveSample
                     Console.WriteLine("Cleaning up and Exiting...");
 
                     CleanupLiveEventAndOutput(client, config.ResourceGroup, config.AccountName, liveEventName, liveOutputName);
-                    CleanupLocatorAssetAndStreamingEndpoint(client, config.ResourceGroup, config.AccountName, streamingLocatorName, assetName);
+                    CleanupLocatorAssetAndStreamingEndpoint(client, config.ResourceGroup, config.AccountName, streamingLocatorName, asset.Name);
 
                     return;
                 }
@@ -273,7 +273,7 @@ namespace LiveSample
                 Console.Out.Flush();
                 ignoredInput = Console.ReadLine();
 
-                CleanupLocatorAssetAndStreamingEndpoint(client, config.ResourceGroup, config.AccountName, streamingLocatorName, assetName);
+                CleanupLocatorAssetAndStreamingEndpoint(client, config.ResourceGroup, config.AccountName, streamingLocatorName, asset.Name);
             }
             catch (ApiErrorException e)
             {
