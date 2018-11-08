@@ -88,9 +88,9 @@ namespace EncodeVideosCustomTransform
                                 );
                 
                 // Out from the Job must be written to an Asset, so let's create one
-                CreateOutputAsset(client, config.ResourceGroup, config.AccountName, outputAssetName);
+                Asset outputAsset = CreateOutputAsset(client, config.ResourceGroup, config.AccountName, outputAssetName);
 
-                Job job = SubmitJob(client, config.ResourceGroup, config.AccountName, transformName, jobName, input, outputAssetName);
+                Job job = SubmitJob(client, config.ResourceGroup, config.AccountName, transformName, jobName, input, outputAsset.Name);
 
                 DateTime startedTime = DateTime.Now;
                 // In this demo code, we will poll for Job status
@@ -105,7 +105,7 @@ namespace EncodeVideosCustomTransform
                     Console.WriteLine("Job finished.");
                     if (!Directory.Exists(outputFolder))
                         Directory.CreateDirectory(outputFolder);
-                    DownloadResults(client, config.ResourceGroup, config.AccountName, outputAssetName, outputFolder).Wait();
+                    DownloadResults(client, config.ResourceGroup, config.AccountName, outputAsset.Name, outputFolder).Wait();
                 }
                 else if (job.State == JobState.Error)
                 {
