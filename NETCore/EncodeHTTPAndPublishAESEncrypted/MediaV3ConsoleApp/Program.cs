@@ -109,9 +109,9 @@ namespace EncodeAndStream
                                     );
                 
 
-                CreateOutputAsset(client, config.ResourceGroup, config.AccountName, outputAssetName);
+                Asset outputAsset = CreateOutputAsset(client, config.ResourceGroup, config.AccountName, outputAssetName);
 
-                Job job = SubmitJob(client, config.ResourceGroup, config.AccountName, transformName, jobName, input, outputAssetName);
+                Job job = SubmitJob(client, config.ResourceGroup, config.AccountName, transformName, jobName, input, outputAsset.Name);
 
                 DateTime startedTime = DateTime.Now;
 
@@ -130,7 +130,7 @@ namespace EncodeAndStream
                     // ClearKey encryption (because the key is delivered to the playback client via HTTPS and
                     // not instead a DRM license).
                     StreamingLocator locator = new StreamingLocator(
-                        assetName: outputAssetName,
+                        assetName: outputAsset.Name,
                         streamingPolicyName: PredefinedStreamingPolicy.ClearKey,
                         defaultContentKeyPolicyName: ContentKeyPolicyName);
 
@@ -204,7 +204,7 @@ namespace EncodeAndStream
                 Console.ReadLine();
 
                 Console.WriteLine("Cleaning up...");
-                Cleanup(client, config.ResourceGroup, config.AccountName, transformName, jobName, outputAssetName, input, streamingLocatorName, ContentKeyPolicyName);
+                Cleanup(client, config.ResourceGroup, config.AccountName, transformName, jobName, outputAsset.Name, input, streamingLocatorName, ContentKeyPolicyName);
        
             }
             catch(ApiErrorException ex)
