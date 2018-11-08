@@ -84,7 +84,7 @@ namespace AnalyzeVideos
 
                 JobInput input = new JobInputAsset(assetName: inputAssetName);
 
-                CreateOutputAsset(client,config.ResourceGroup, config.AccountName, outputAssetName);
+                Asset outputAsset = CreateOutputAsset(client,config.ResourceGroup, config.AccountName, outputAssetName);
 
                 // Note that you can now pass custom correlation data Dictionary into the job to use via EventGrid or other Job polling listeners.
                 // this is handy for passing tenant ID, or custom workflow data as part of your job.
@@ -92,7 +92,7 @@ namespace AnalyzeVideos
                 correlationData.Add("customData1", "some custom data to pass through the job");
                 correlationData.Add("custom ID", "some GUID here");
 
-                Job job = SubmitJob(client,config.ResourceGroup, config.AccountName, VideoAnalyzerTransformName, jobName, input, outputAssetName, correlationData);
+                Job job = SubmitJob(client,config.ResourceGroup, config.AccountName, VideoAnalyzerTransformName, jobName, input, outputAsset.Name, correlationData);
 
                 DateTime startedTime = DateTime.Now;
 
@@ -105,7 +105,7 @@ namespace AnalyzeVideos
                     Console.WriteLine("Job finished.");
                     if (!Directory.Exists(outputFolder))
                         Directory.CreateDirectory(outputFolder);
-                    DownloadResults(client, config.ResourceGroup, config.AccountName, outputAssetName, outputFolder).Wait();
+                    DownloadResults(client, config.ResourceGroup, config.AccountName, outputAsset.Name, outputFolder).Wait();
                 }
                 else if (job.State == JobState.Error)
                 {
