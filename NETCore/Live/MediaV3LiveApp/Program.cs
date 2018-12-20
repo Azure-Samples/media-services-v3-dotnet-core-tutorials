@@ -128,7 +128,7 @@ namespace LiveSample
                     description:"Sample LiveEvent for testing",
                     vanityUrl:false,
                     encoding: new LiveEventEncoding(
-                                // Set this to Basic to enable a transcoding LiveEvent, and None to enable a pass-through LiveEvent
+                                // Set this to Standard to enable a transcoding LiveEvent, and None to enable a pass-through LiveEvent
                                 encodingType:LiveEventEncodingType.None, 
                                 presetName:null
                             ),
