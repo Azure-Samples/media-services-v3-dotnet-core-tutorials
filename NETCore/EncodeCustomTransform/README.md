@@ -9,7 +9,7 @@ This is a Quickstart sample showing how to use Azure Media Services API and .NET
 Open this folder directly (seperately) in Visual Studio Code. 
 
 ## Required Assemblies in the project
-- Microsoft.Azure.Management.Media -Version 1.0.0
+- Microsoft.Azure.Management.Media -Version 2.0.1
 - WindowsAzure.Storage  -Version 9.1.1
 - Microsoft.Rest.ClientRuntime.Azure.Authentication -Version 2.3.3
 
