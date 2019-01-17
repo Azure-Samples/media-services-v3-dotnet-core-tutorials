@@ -83,6 +83,10 @@ namespace LiveSample
                 Console.WriteLine($"Creating a live event named {liveEventName}");
                 Console.WriteLine();
 
+                // Note: When creating a LiveEvent, you can specify allowed IP addresses in one of the following formats:                 
+                //      IpV4 address with 4 numbers
+                //      CIDR address range
+
                 // Create the LiveEvent input IP access control  
                 LiveEventInputAccessControl liveEventInputAccess = new LiveEventInputAccessControl
                 {
