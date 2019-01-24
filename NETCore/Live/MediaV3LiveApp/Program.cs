@@ -150,6 +150,10 @@ namespace LiveSample
                 );
 
                 Console.WriteLine($"Creating the LiveEvent, be patient this can take time...");
+                
+                // When autostart is set to true, the Live Event will be started after creation. 
+                // That means, the billing starts as soon as the Live Event starts running. 
+                // You must explicitly call Stop on the Live Event resource to halt further billing.
                 liveEvent = client.LiveEvents.Create(config.ResourceGroup, config.AccountName, liveEventName, liveEvent, autoStart:true);
                 // </CreateLiveEvent>
                 
