@@ -198,7 +198,7 @@ namespace EncodeVideosCustomTransform
                                     layers:  new H264Layer[]
                                     {
                                         new H264Layer (
-                                            bitrate: 1000000, // Note that the units is in bits per second
+                                            bitrate: 1000000, // Units are in bits per second
                                             width: "1280",
                                             height: "720",
                                             label: "HD" // This label is used to modify the file name in the output formats
