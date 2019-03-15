@@ -10,7 +10,7 @@ The projects in this repository were created using Visual Studio Code.
 
 The /NETCore folder contains samples showing how to use Azure Media Services v3 API and .NET SDK in .NET Core.  
 
-Open the each project under the /NETCore folder directly (seperately) in Visual Studio Code in order for the build process to work properly. Failure to do so will result in VS code asking for new configuration and build files to be created. 
+Open each project under the /NETCore folder directly (seperately) in Visual Studio Code in order for the build process to work properly. Failure to do so will result in VS code asking for new configuration and build files to be created. 
 
 ## Prerequisites
 
