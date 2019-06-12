@@ -128,7 +128,9 @@ namespace LiveSample
                     description: "Sample LiveEvent for testing",
                     vanityUrl: false,
                     encoding: new LiveEventEncoding(
-                                // Set this to Standard to enable a transcoding LiveEvent, and None to enable a pass-through LiveEvent
+                                // When encodingType is None, the service simply passes through the incoming video and audio layer(s) to the output
+                                // When the encodingType is set to Standard or Premium1080p, a live encoder is used to transcode the incoming stream
+                                // into multiple bit rates or layers. See https://go.microsoft.com/fwlink/?linkid=2095101 for more information
                                 encodingType: LiveEventEncodingType.None,
                                 presetName: null
                             ),
