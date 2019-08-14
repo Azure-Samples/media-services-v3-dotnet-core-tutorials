@@ -16,7 +16,7 @@ Open each project under the /NETCore folder directly (seperately) in Visual Stud
 
 To run samples in this repository, you need:
 
-* Visual Studio Code
+* Visual Studio 2017 or greater or Visual Studio Code
 * Microsoft .NET Core SDK v2.1 or newer
 
 ## Required assemblies
