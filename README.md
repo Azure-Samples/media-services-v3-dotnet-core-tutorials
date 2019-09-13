@@ -1,7 +1,11 @@
 ---
-services: media-services
-platforms: dotnet-core
-author: Juliako
+page_type: sample
+languages:
+- csharp
+products:
+- azure
+description: "The projects in this repository were created using Visual Studio Code."
+urlFragment: media-services-v3-dotnet-core-tutorials
 ---
 
 # Azure Media Services v3 .NET Core tutorials
