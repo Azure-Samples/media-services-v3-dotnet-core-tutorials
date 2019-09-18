@@ -280,42 +280,67 @@ namespace AnalyzeVideos
         }
 
 
-
-        private async static Task DownloadResults(IAzureMediaServicesClient client, string resourceGroupName, string accountName, string assetName, string resultsFolder)
+        /// <summary>
+        ///  Downloads the results from the specified output asset, so you can see what you got.
+        /// </summary>
+        /// <param name="client">The Media Services client.</param>
+        /// <param name="resourceGroupName">The name of the resource group within the Azure subscription.</param>
+        /// <param name="accountName"> The Media Services account name.</param>
+        /// <param name="assetName">The output asset.</param>
+        /// <param name="outputFolderName">The name of the folder into which to download the results.</param>
+        private static async Task DownloadResults(
+            IAzureMediaServicesClient client,
+            string resourceGroup,
+            string accountName,
+            string assetName,
+            string outputFolderName)
         {
-            ListContainerSasInput parameters = new ListContainerSasInput();
-            AssetContainerSas assetContainerSas = client.Assets.ListContainerSas(
-                            resourceGroupName, 
-                            accountName, 
-                            assetName,
-                            permissions: AssetContainerPermission.Read, 
-                            expiryTime: DateTime.UtcNow.AddHours(1).ToUniversalTime()
-                            );
+            const int ListBlobsSegmentMaxResult = 5;
+
+            if (!Directory.Exists(outputFolderName))
+            {
+                Directory.CreateDirectory(outputFolderName);
+            }
+
+            AssetContainerSas assetContainerSas = await client.Assets.ListContainerSasAsync(
+                resourceGroup,
+                accountName,
+                assetName,
+                permissions: AssetContainerPermission.Read,
+                expiryTime: DateTime.UtcNow.AddHours(1).ToUniversalTime());
 
             Uri containerSasUrl = new Uri(assetContainerSas.AssetContainerSasUrls.FirstOrDefault());
             CloudBlobContainer container = new CloudBlobContainer(containerSasUrl);
 
-            string directory = Path.Combine(resultsFolder, assetName);
+            string directory = Path.Combine(outputFolderName, assetName);
             Directory.CreateDirectory(directory);
 
-            Console.WriteLine("Downloading results to {0}.", directory);
-            
-            var blobs = container.ListBlobsSegmentedAsync(null,true, BlobListingDetails.None,200,null,null,null).Result;
-            
-            foreach (var blobItem in blobs.Results)
-            {
-                if (blobItem is CloudBlockBlob)
-                {
-                    CloudBlockBlob blob = blobItem as CloudBlockBlob;
-                    string filename = Path.Combine(directory, blob.Name);
+            Console.WriteLine($"Downloading output results to '{directory}'...");
 
-                    await blob.DownloadToFileAsync(filename, FileMode.Create);
+            BlobContinuationToken continuationToken = null;
+            IList<Task> downloadTasks = new List<Task>();
+
+            do
+            {
+                BlobResultSegment segment = await container.ListBlobsSegmentedAsync(null, true, BlobListingDetails.None, ListBlobsSegmentMaxResult, continuationToken, null, null);
+
+                foreach (IListBlobItem blobItem in segment.Results)
+                {
+                    if (blobItem is CloudBlockBlob blob)
+                    {
+                        string path = Path.Combine(directory, blob.Name);
+
+                        downloadTasks.Add(blob.DownloadToFileAsync(path, FileMode.Create));
+                    }
                 }
+
+                continuationToken = segment.ContinuationToken;
             }
+            while (continuationToken != null);
+
+            await Task.WhenAll(downloadTasks);
 
             Console.WriteLine("Download complete.");
-            
         }
-
     }
 }
