@@ -295,8 +295,6 @@ namespace AnalyzeVideos
             string assetName,
             string outputFolderName)
         {
-            const int ListBlobsSegmentMaxResult = 5;
-
             if (!Directory.Exists(outputFolderName))
             {
                 Directory.CreateDirectory(outputFolderName);
@@ -322,6 +320,11 @@ namespace AnalyzeVideos
 
             do
             {
+                // A non-negative integer value that indicates the maximum number of results to be returned at a time,
+                // up to the per-operation limit of 5000. If this value is null, the maximum possible number of results
+                // will be returned, up to 5000.
+                int? ListBlobsSegmentMaxResult = null;    
+                
                 BlobResultSegment segment = await container.ListBlobsSegmentedAsync(null, true, BlobListingDetails.None, ListBlobsSegmentMaxResult, continuationToken, null, null);
 
                 foreach (IListBlobItem blobItem in segment.Results)
