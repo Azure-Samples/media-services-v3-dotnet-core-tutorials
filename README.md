@@ -10,6 +10,12 @@ urlFragment: media-services-v3-dotnet-core-tutorials
 
 # Azure Media Services v3 .NET Core tutorials
 
+## NOTE
+ 
+You can find the latest and most extensive .NET samples in the [Azure Media Services v3](https://github.com/Azure-Samples/media-services-v3-dotnet) repository.
+
+## Overview
+
 The projects in this repository were created using Visual Studio Code.
 
 The /NETCore folder contains samples showing how to use Azure Media Services v3 API and .NET SDK in .NET Core.  
