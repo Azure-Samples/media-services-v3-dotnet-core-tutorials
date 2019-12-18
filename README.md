@@ -1,10 +1,20 @@
 ---
-services: media-services
-platforms: dotnet-core
-author: Juliako
+page_type: sample
+languages:
+- csharp
+products:
+- azure
+description: "The projects in this repository were created using Visual Studio Code."
+urlFragment: media-services-v3-dotnet-core-tutorials
 ---
 
 # Azure Media Services v3 .NET Core tutorials
+
+## NOTE
+ 
+You can find the latest and most extensive .NET samples in the [Azure Media Services v3](https://github.com/Azure-Samples/media-services-v3-dotnet) repository.
+
+## Overview
 
 The projects in this repository were created using Visual Studio Code.
 
@@ -16,7 +26,7 @@ Open each project under the /NETCore folder directly (seperately) in Visual Stud
 
 To run samples in this repository, you need:
 
-* Visual Studio Code
+* Visual Studio 2017 or greater or Visual Studio Code
 * Microsoft .NET Core SDK v2.1 or newer
 
 ## Required assemblies
