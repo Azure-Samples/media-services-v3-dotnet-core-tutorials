@@ -35,7 +35,7 @@ namespace LiveSample
             {
                 if (exception.Source.Contains("ActiveDirectory"))
                 {
-                     Console.Error.WriteLine("TIP: Make sure that you have filled out the appsettings.json file before running this sample.");
+                    Console.Error.WriteLine("TIP: Make sure that you have filled out the appsettings.json file before running this sample.");
                 }
 
                 Console.Error.WriteLine($"{exception.Message}");
@@ -53,7 +53,7 @@ namespace LiveSample
 
         }
 
-          /// <summary>
+        /// <summary>
         /// Run the sample async.
         /// </summary>
         /// <param name="config">The parm is of type ConfigWrapper. This class reads values from local configuration file.</param>
@@ -215,7 +215,7 @@ namespace LiveSample
                 if (streamingEndpoint.ResourceState != StreamingEndpointResourceState.Running)
                 {
                     Console.WriteLine("Streaming Endpoint was Stopped, restarting now..");
-                    await client.StreamingEndpoints.StartAsync (config.ResourceGroup, config.AccountName, streamingEndpointName);
+                    await client.StreamingEndpoints.StartAsync(config.ResourceGroup, config.AccountName, streamingEndpointName);
                 }
                 #endregion
 
@@ -570,7 +570,7 @@ namespace LiveSample
             };
         }
         // </CreateMediaServicesClient>
-        
+
         // <CleanupLiveEventAndOutput>
         private static async Task CleanupLiveEventAndOutputAsync(IAzureMediaServicesClient client, string resourceGroup, string accountName, string liveEventName)
         {
@@ -599,7 +599,7 @@ namespace LiveSample
             }
         }
         // </CleanupLiveEventAndOutput>
-        
+
         // <CleanupLocatorAssetAndStreamingEndpoint>
         private static async Task CleanupLocatorandAssetAsync(IAzureMediaServicesClient client, string resourceGroup, string accountName, string streamingLocatorName, string assetName)
         {
